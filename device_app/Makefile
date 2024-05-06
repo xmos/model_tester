@@ -11,6 +11,10 @@ APP_FLAGS = -report \
 # Comment out the below TFLMC_XCORE_PROFILE definition to disable profiling
 APP_FLAGS += -DTFLMC_XCORE_PROFILE
 
+# Enable the below SHARED_TENSOR_ARENA definition for multiple models 
+# or to manage tensor arena array yourself
+#APP_FLAGS += -DSHARED_TENSOR_ARENA
+
 # *******************************************************
 # Include AI Tools library and headers
 # *******************************************************
