@@ -1,6 +1,6 @@
 from xmos_ai_tools import xformer
 
-TFLITE_MODEL_PATH = "models/MODEL.tflite"
+TFLITE_MODEL_PATH = "models/mobilenetv2.tflite"
 OPTIMIZED_MODEL_PATH = "host_app/src/model.tflite"
 
 OPT_MODEL_PATH = "src/model.tflite"
@@ -11,9 +11,9 @@ xformer.convert(
     OPTIMIZED_MODEL_PATH,
     {
         "xcore-thread-count": "5",
-        # "xcore-conv-err-threshold": "3",
     },
 )
+xformer.print_optimization_report()
 
 OPTIMIZED_MODEL_PATH = "device_app/src/model.tflite"
 # WEIGHT_PARAMS_PATH = "src/model_weights.params"
@@ -24,9 +24,9 @@ xformer.convert(
     OPTIMIZED_MODEL_PATH,
     {
         "xcore-thread-count": "5",
-        # "xcore-conv-err-threshold": "3",
     },
 )
+xformer.print_optimization_report()
 
 # Generate flash binary
 # xformer.generate_flash(

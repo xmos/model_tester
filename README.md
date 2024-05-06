@@ -24,13 +24,13 @@ Run the following command to activate:
 
 ## Install Python Packages
 
-Use pip to install the required modules:
-
-    pip install -r requirements.txt
-
 Install xmos-ai-tools with:
 
     pip install xmos-ai-tools --pre --upgrade
+
+## Copy in model files
+
+Copy your model files into the `models` folder and edit the `generate_optimized_cpp_for_xcore.py` script accordingly.
 
 ## Optimizing Models for XCORE
 
