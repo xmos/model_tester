@@ -3,8 +3,6 @@ from xmos_ai_tools import xformer
 TFLITE_MODEL_PATH = "models/mobilenetv2.tflite"
 OPTIMIZED_MODEL_PATH = "host_app/src/model.tflite"
 
-OPT_MODEL_PATH = "src/model.tflite"
-
 print("Generating host app cpp files for model...")
 xformer.convert(
     TFLITE_MODEL_PATH,
