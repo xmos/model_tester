@@ -73,6 +73,12 @@ The `device_app` folder contains source file for device. Run the following comma
 
     xmake
 
+### Flash the device
+
+Flash the device with the following command:
+
+    xflash --data src/xcore_flash_binary.out  --target XCORE-AI-EXPLORER
+
 ### Running the XCORE application on hardware
 
 Run:
