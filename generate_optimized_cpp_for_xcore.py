@@ -14,8 +14,8 @@ xformer.convert(
 xformer.print_optimization_report()
 
 OPTIMIZED_MODEL_PATH = "device_app/src/model.tflite"
-# WEIGHT_PARAMS_PATH = "src/model_weights.params"
-# FLASH_IMAGE_PATH = "src/xcore_flash_binary.out"
+# WEIGHT_PARAMS_PATH = "device_app/src/model_weights.params"
+# FLASH_IMAGE_PATH = "device_app/src/xcore_flash_binary.out"
 print("Generating device app cpp files for model...")
 xformer.convert(
     TFLITE_MODEL_PATH,
