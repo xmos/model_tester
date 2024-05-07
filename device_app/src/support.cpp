@@ -4,6 +4,16 @@
 #include <assert.h>
 #include <xcore/channel.h>
 #include "model.tflite.h"
+#include "image.h"
+
+
+// The sample input image is initialized at the beginning of the tensor arena.
+// Before we run inference, the input image is copied to the input tensor
+// location in the tensor arena.
+// With this optimization, we don't need an extra array to store the input
+// image.
+uint8_t tensor_arena[LARGEST_TENSOR_ARENA_SIZE] __attribute__((aligned(8))) = IMAGE;
+
 
 // Simple checksum calc
 unsigned char checksum_calc(char *data, unsigned int length)
@@ -33,35 +43,37 @@ float dequantize_output(int n) {
 void init(unsigned flash_data) { model_init((void *)flash_data); }
 
 void run() {
-  // Set inputs
-  for(int n=0; n< model_inputs(); ++n) {
-    int8_t *in = model_input(n)->data.int8;
-    int size = model_input_size(n);
-    int k = -128;
-    // Create input data as 
-    // -128, -125, -122, ..., 127, -128, -125, ...
-    for (int i=0;i<size;++i) {
-      if (k >= 128) {
-        k = -128;
-      }
-      in[i] = k;
-      k = k + 3;
-    }
+  // Set input
+  int8_t *in = model_input(0)->data.int8;
+  int size = model_input_size(0);
+  for (int i=0;i<size;++i) {
+    in[i] = tensor_arena[i] - 128;
   }
 
-  // Run inference
   model_invoke();
 
-  // Print outputs
-  for(int n=0; n< model_outputs(); ++n) {
-    int8_t *out = model_output(n)->data.int8;
-    int size = model_output_size(n);
-    printf("Output %d\n", n);
-    for (int i=0;i<size;++i){
-      printf("%d,",(int)out[i]);
+  // Find top three classes
+  int maxIndex1 = -1;
+  int max1 = -128;
+  int maxIndex2 = -1;
+  int max2 = -128;
+  int maxIndex3 = -1;
+  int max3 = -128;
+  int8_t *out = model_output(0)->data.int8;
+  for (int i = 0; i < model_output_size(0); ++i) {
+    if (out[i] > max1) {
+      max3 = max2;
+      maxIndex3 = maxIndex2;
+      max2 = max1;
+      maxIndex2 = maxIndex1;
+      max1 = out[i];
+      maxIndex1 = i;
     }
-    printf("\nchecksum : %d\n\n", (int)checksum_calc((char*)out, model_output_size(n)));
   }
+
+  printf("\nClass with max1 value = %d and probability = %f", maxIndex1, dequantize_output(max1));
+  printf("\nClass with max2 value = %d and probability = %f", maxIndex2, dequantize_output(max2));
+  printf("\nClass with max3 value = %d and probability = %f", maxIndex3, dequantize_output(max3));
 }
 
 extern "C" {

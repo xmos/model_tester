@@ -13,7 +13,7 @@ APP_FLAGS += -DTFLMC_XCORE_PROFILE
 
 # Enable the below SHARED_TENSOR_ARENA definition for multiple models 
 # or to manage tensor arena array yourself
-#APP_FLAGS += -DSHARED_TENSOR_ARENA
+APP_FLAGS += -DSHARED_TENSOR_ARENA
 
 # *******************************************************
 # Include AI Tools library and headers
