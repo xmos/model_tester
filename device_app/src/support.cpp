@@ -30,7 +30,11 @@ float dequantize_output(int n) {
   return (n - model_output_zeropoint(0)) * model_output_scale(0);
 }
 
+#ifdef PAGING_ENABLED
 void init(unsigned flash_data, unsigned paging_data) { model_init_with_paging((void *)flash_data, (void *)paging_data); }
+#else
+void init(unsigned flash_data, unsigned paging_data) { model_init((void *)flash_data); }
+#endif
 
 void run() {
   // Set inputs
