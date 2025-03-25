@@ -1,4 +1,4 @@
-TARGET = XCORE-AI-EXPLORER
+TARGET = XCORE-AI-EXPLORER-800
 APP_NAME = app_device
 
 APP_FLAGS = -report \
@@ -13,7 +13,10 @@ APP_FLAGS += -DTFLMC_XCORE_PROFILE
 
 # Enable the below SHARED_TENSOR_ARENA definition for multiple models 
 # or to manage tensor arena array yourself
-#APP_FLAGS += -DSHARED_TENSOR_ARENA
+# APP_FLAGS += -DSHARED_TENSOR_ARENA
+
+# Enable the below PAGING_ENABLED definition when using paging support
+# APP_FLAGS += -DPAGING_ENABLED
 
 # *******************************************************
 # Include AI Tools library and headers

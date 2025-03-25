@@ -4,6 +4,12 @@
 #include <quadflash.h>
 #include <stdint.h>
 
+#ifdef PAGING_ENABLED
+#include "model.tflite.params.h"
+extern const int8_t weights[WEIGHTS_SIZE + PAGING_SIZE];
+extern void model_init_with_paging(unsigned f, unsigned p);
+#endif
+
 #define NUMBER_OF_MODELS 1
 #define NFLASH_SPECS 1
 
@@ -33,7 +39,11 @@ int main(void) {
     on tile[1] : {
       unsafe {
         c_flash[0] <: FLASH_SERVER_INIT;
+        #ifdef PAGING_ENABLED
+        model_init_with_paging((unsigned)&weights[0], (unsigned)&weights[WEIGHTS_SIZE]);
+        #else
         model_init(c_flash[0]);
+        #endif
 
         inference();
 

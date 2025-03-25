@@ -30,7 +30,7 @@ float dequantize_output(int n) {
   return (n - model_output_zeropoint(0)) * model_output_scale(0);
 }
 
-void init(unsigned flash_data) { model_init((void *)flash_data); }
+void init(unsigned flash_data, unsigned paging_data) { model_init_with_paging((void *)flash_data, (void *)paging_data); }
 
 void run() {
   // Set inputs
@@ -65,7 +65,9 @@ void run() {
 }
 
 extern "C" {
-void model_init(unsigned flash_data) { init(flash_data); }
+void model_init(unsigned flash_data) { init(flash_data, 0); }
+
+void model_init_with_paging(unsigned flash_data, unsigned paging_data) { init(flash_data, paging_data); }
 
 void inference() { run(); }
 }
