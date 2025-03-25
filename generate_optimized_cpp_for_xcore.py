@@ -7,9 +7,9 @@ print("Generating host app cpp files for model...")
 xformer.convert(
     TFLITE_MODEL_PATH,
     OPTIMIZED_MODEL_PATH,
-    {
-        "xcore-thread-count": "5",
-    },
+    [
+        ("xcore-thread-count", "5"),
+    ],
 )
 xformer.print_optimization_report()
 
@@ -20,9 +20,9 @@ print("Generating device app cpp files for model...")
 xformer.convert(
     TFLITE_MODEL_PATH,
     OPTIMIZED_MODEL_PATH,
-    {
-        "xcore-thread-count": "5",
-    },
+    [
+        ("xcore-thread-count", "5"),
+    ],
 )
 xformer.print_optimization_report()
 
